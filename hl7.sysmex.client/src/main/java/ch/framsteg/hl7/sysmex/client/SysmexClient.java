@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2020-2022,  Olivier Debenath
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Olivier Debenath <olivier@debenath.ch> - initial implementation
+ *    
+ *******************************************************************************/
 package ch.framsteg.hl7.sysmex.client;
 
 import java.io.DataInputStream;
@@ -15,20 +26,15 @@ public class SysmexClient {
 		try {
 			System.out.println("Connecting to " + serverName + " on port " + port);
 			Socket client = new Socket(serverName, port);
-
 			System.out.println("Just connected to " + client.getRemoteSocketAddress());
 			OutputStream outToServer = client.getOutputStream();
 			DataOutputStream out = new DataOutputStream(outToServer);
-
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("D1UXP-300^AP807129^A5730                   20220428000000000000000" + patientID
 					+ "00000000043004440013100393008850029500333002550016820104007281000720004000320042500119001040009200180000230");
-
-			// out.writeUTF("Hello from " + client.getLocalSocketAddress());
 			out.writeUTF(stringBuilder.toString());
 			InputStream inFromServer = client.getInputStream();
 			DataInputStream in = new DataInputStream(inFromServer);
-
 			System.out.println("Server says " + in.readUTF());
 			client.close();
 		} catch (IOException e) {
@@ -36,5 +42,4 @@ public class SysmexClient {
 			e.printStackTrace();
 		}
 	}
-
 }
